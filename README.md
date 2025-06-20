@@ -21,7 +21,7 @@ Follow these steps to get the Unsolvable Gatekeeper bot running on your server.
 **1. Clone the repository:**
 
 ```bash
-git clone https://github.com/your-username/unsolvable-gatekeeper.git
+git clone https://github.com/ForeverInLaw/unsolvable-gatekeeper.git
 cd unsolvable-gatekeeper
 ```
 
