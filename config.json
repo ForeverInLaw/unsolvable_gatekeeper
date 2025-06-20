@@ -1,0 +1,6 @@
+{
+  "guildId": "guildId",
+  "unverifiedRole": "unverifiedRoleId",
+  "verifiedRole": "verifiedRoleId",
+  "verificationChannel": "verificationChannelId"
+}
