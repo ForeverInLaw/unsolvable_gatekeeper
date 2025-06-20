@@ -25,8 +25,6 @@ git clone https://github.com/ForeverInLaw/unsolvable-gatekeeper.git
 cd unsolvable-gatekeeper
 ```
 
-_(Replace `your-username` with the actual repository owner's username if you are not the owner.)_
-
 **2. Install dependencies:**
 This command installs all the necessary libraries listed in `package.json`.
 
@@ -34,16 +32,16 @@ This command installs all the necessary libraries listed in `package.json`.
 npm install
 ```
 
-**3. Create and configure `.env`:**
-Create a file named `.env` in the root directory of the project. This file will store your bot's secret token and client ID.
+**3. Configure `.env`:**
+Rename a file `.env.example` to `.env` in the root directory of the project and insert there credentials. This file will store your bot's secret token and client ID.
 
 ```env
 DISCORD_TOKEN=your_discord_bot_token
 CLIENT_ID=your_bot_client_id
 ```
 
-**4. Create and configure `config.json`:**
-Create a file named `config.json` in the root directory. The `/setup` command will automatically populate this file later, but it needs to exist beforehand.
+**4. Configure `config.json`:**
+Insert your credentials in this file in the root directory. The `/setup` command will automatically populate this file later, but it needs to exist beforehand.
 
 ```json
 {
