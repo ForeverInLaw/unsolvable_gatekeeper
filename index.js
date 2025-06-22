@@ -43,13 +43,13 @@ for (const file of commandFiles) {
     client.commands.set(command.data.name, command);
   } else {
     console.log(
-      `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
+      `[ПРЕДУПРЕЖДЕНИЕ] У команды по пути ${filePath} отсутствует необходимое свойство "data" или "execute".`
     );
   }
 }
 
 client.once(Events.ClientReady, () => {
-  console.log("Ready!");
+  console.log("Готово!");
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
@@ -64,12 +64,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
       console.error(error);
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({
-          content: "There was an error while executing this command!",
+          content: "Произошла ошибка при выполнении этой команды!",
           flags: [MessageFlags.Ephemeral],
         });
       } else {
         await interaction.reply({
-          content: "There was an error while executing this command!",
+          content: "Произошла ошибка при выполнении этой команды!",
           flags: [MessageFlags.Ephemeral],
         });
       }
@@ -85,13 +85,13 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
       const showModalButton = new ButtonBuilder()
         .setCustomId("show_captcha_modal")
-        .setLabel("Enter Code")
+        .setLabel("Введите код")
         .setStyle(ButtonStyle.Primary);
 
       const row = new ActionRowBuilder().addComponents(showModalButton);
 
       await interaction.reply({
-        content: "Please complete the CAPTCHA to verify.",
+        content: "Пожалуйста, пройдите CAPTCHA для верификации.",
         files: [attachment],
         components: [row],
         flags: [MessageFlags.Ephemeral],
@@ -99,11 +99,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
     } else if (interaction.customId === "show_captcha_modal") {
       const modal = new ModalBuilder()
         .setCustomId("captcha_modal")
-        .setTitle("Verification");
+        .setTitle("Верификация");
 
       const captchaInput = new TextInputBuilder()
         .setCustomId("captcha_input")
-        .setLabel("Enter the text from the image")
+        .setLabel("Введите текст с изображения")
         .setStyle(TextInputStyle.Short)
         .setRequired(true);
 
@@ -134,15 +134,15 @@ client.on(Events.InteractionCreate, async (interaction) => {
           if (unverifiedRole) await member.roles.remove(unverifiedRole);
 
           await interaction.reply({
-            content: "You have been successfully verified!",
+            content: "Вы успешно прошли верификацию!",
             flags: [MessageFlags.Ephemeral],
           });
         } catch (error) {
           if (error.code === 50013) {
             const errorMessage =
-              "Failed to update roles. Please check two things: 1) Ensure the bot has the 'Manage Roles' permission. 2) In your Server Settings, make sure the bot's highest role is positioned *above* the roles it needs to manage.";
+              "Не удалось обновить роли. Пожалуйста, проверьте две вещи: 1) Убедитесь, что у бота есть разрешение «Управлять ролями». 2) В настройках вашего сервера убедитесь, что самая высокая роль бота находится *выше* ролей, которыми ему необходимо управлять.";
             console.error(
-              `[ERROR] Missing Permissions: ${errorMessage} (User: ${interaction.user.username}, Guild: ${interaction.guild.name})`
+              `[ОШИБКА] Отсутствуют разрешения: ${errorMessage} (Пользователь: ${interaction.user.username}, Сервер: ${interaction.guild.name})`
             );
             await interaction.reply({
               content: errorMessage,
@@ -150,11 +150,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
             });
           } else {
             console.error(
-              `Failed to update roles for ${interaction.user.username} in ${interaction.guild.name} during verification. Error: ${error.message}`
+              `Не удалось обновить роли для ${interaction.user.username} на сервере ${interaction.guild.name} во время верификации. Ошибка: ${error.message}`
             );
             await interaction.reply({
               content:
-                "An unexpected error occurred while updating your roles. Please contact a moderator.",
+                "Произошла непредвиденная ошибка при обновлении ваших ролей. Пожалуйста, свяжитесь с модератором.",
               flags: [MessageFlags.Ephemeral],
             });
           }
@@ -169,14 +169,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
           captchaResponses.delete(userId);
           await interaction.reply({
             content:
-              "You have failed verification too many times. Please contact a moderator.",
+              "Вы провалили верификацию слишком много раз. Пожалуйста, свяжитесь с модератором.",
             flags: [MessageFlags.Ephemeral],
           });
         } else {
           await interaction.reply({
-            content: `Incorrect CAPTCHA. You have ${
+            content: `Неверная CAPTCHA. У вас осталось ${
               3 - attempts
-            } attempts remaining.`,
+            } попыток.`,
             flags: [MessageFlags.Ephemeral],
           });
         }
@@ -191,7 +191,7 @@ client.on(Events.GuildMemberAdd, async (member) => {
   const unverifiedRole = member.guild.roles.cache.get(config.unverifiedRole);
   if (!unverifiedRole) {
     console.error(
-      `[ERROR] Unverified role with ID ${config.unverifiedRole} not found.`
+      `[ОШИБКА] Роль для не верифицированных с ID ${config.unverifiedRole} не найдена.`
     );
     return;
   }
@@ -203,13 +203,13 @@ client.on(Events.GuildMemberAdd, async (member) => {
   } catch (error) {
     if (error.code === 50013) {
       const errorMessage =
-        "Failed to update roles. Please check two things: 1) Ensure the bot has the 'Manage Roles' permission. 2) In your Server Settings, make sure the bot's highest role is positioned *above* the roles it needs to manage.";
+        "Не удалось обновить роли. Пожалуйста, проверьте две вещи: 1) Убедитесь, что у бота есть разрешение «Управлять ролями». 2) В настройках вашего сервера убедитесь, что самая высокая роль бота находится *выше* ролей, которыми ему необходимо управлять.";
       console.error(
-        `[ERROR] Missing Permissions: ${errorMessage} (User: ${member.user.username}, Guild: ${member.guild.name})`
+        `[ОШИБКА] Отсутствуют разрешения: ${errorMessage} (Пользователь: ${member.user.username}, Сервер: ${member.guild.name})`
       );
     } else {
       console.error(
-        `Failed to assign unverified role to ${member.user.username} in ${member.guild.name}. Error: ${error.message}`
+        `Не удалось назначить роль для не верифицированных ${member.user.username} на сервере ${member.guild.name}. Ошибка: ${error.message}`
       );
     }
   }
