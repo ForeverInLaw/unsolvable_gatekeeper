@@ -31,6 +31,7 @@ module.exports = {
         .setDescription("Канал для верификации.")
         .setRequired(true)
     ),
+  permissions: ["Administrator"],
   async execute(interaction) {
     if (!interaction.inGuild()) {
       return interaction.reply({
@@ -113,9 +114,13 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle(`Добро пожаловать на ${guild.name}!`)
         .setDescription(
-          "Чтобы получить доступ ко всем каналам, пожалуйста, подтвердите, что вы не робот. Нажмите на кнопку ниже, чтобы начать верификацию."
+          "Тут мы решаем нерешаемые ИТ-задачи :)\nЧтобы начать верификацию, нажмите на кнопку ниже"
         )
-        .setColor(0x0099ff);
+        .setColor(0x0099ff)
+        .setImage(
+          "https://i.pinimg.com/736x/90/e7/d4/90e7d4a0f6aa266533e1560baf6e3608.jpg"
+        )
+        .setTimestamp();
 
       const button = new ButtonBuilder()
         .setCustomId("start_verification")

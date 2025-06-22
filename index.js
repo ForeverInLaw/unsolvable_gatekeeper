@@ -58,6 +58,15 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     if (!command) return;
 
+    if (command.permissions) {
+      if (!interaction.member.permissions.has(command.permissions)) {
+        return interaction.reply({
+          content: "У вас недостаточно прав для выполнения этой команды.",
+          flags: [MessageFlags.Ephemeral],
+        });
+      }
+    }
+
     try {
       await command.execute(interaction);
     } catch (error) {
